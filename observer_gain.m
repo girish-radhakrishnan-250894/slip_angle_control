@@ -35,7 +35,8 @@ C = [1 0];
 % Using pole placement technique to create the observer gain matrix
 % Using the principle of duality, (A-BK) is equivalent to (A' - C'L').
 % Therefore, A', C' can be used using the placeMIMO function (which is the
-% same as the place.m function of
-input.L = -place(A',C',[-20,-20])';
+% same as the place.m functio
+% n of
+input.L = place(A',C',[-28,-2])';
 
 eig(A - input.L*C)

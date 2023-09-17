@@ -46,7 +46,7 @@ opts = odeset('MaxStep',0.01);
 %% SIMULATION :- RUN 
 tic % Start timer
 
-[t,q] = ode15s(@(t,q)state_observer(t,q,input), [0 input.time(end)], q0, opts); % Run simulation
+[t,q] = ode15s(@(t,q)slip_angle_controller(t,q,input), [0 input.time(end)], q0, opts); % Run simulation
 
 timeTest=toc; % End timer
 
@@ -54,7 +54,7 @@ timeTest=toc; % End timer
 n_outputs_simulator = 1;
 O_simulator = zeros(length(t),n_outputs_simulator);
 parfor i=1:length(q)
-    [~,O_simulator(i,:),~] = state_observer(t(i),q(i,:)',input);
+    [~,O_simulator(i,:),~] = slip_angle_controller(t(i),q(i,:)',input);
 end
 
 

@@ -93,7 +93,7 @@ f_hat_qd_q_u = [Fy_1 + Fy_2 - m*u*r_hat;
 %% Augmented system dynamics ([model estimator])
 
 Q_dot = [q_dot;
-         (M_hat\f_hat_qd_q_u) + input.L*(y - y_hat)
+         (M_hat\f_hat_qd_q_u) - input.L*(y - y_hat)
          ];
 
 %% Initializing outputs to be logged
