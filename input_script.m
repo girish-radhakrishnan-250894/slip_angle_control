@@ -36,8 +36,8 @@ addpath(genpath(pwd));
 input.P_v_scaler = 0.003; % P_v is auto-set as 4.04007*m_s*g
 %% INPUT :- STEERING
 
-input.delta = 0.5*[0 0 0 0 deg2rad(3) deg2rad(3) deg2rad(3)];
-input.time  = [0 1 2 3 4 5 10];
+input.delta = 4*[0 0 0 0 deg2rad(3) deg2rad(3) deg2rad(3) 0 0 0];
+input.time  = [0 1 2 3 4 5 10 11 12 14];
 %% INPUT :- SPEED
 
 input.u_start = 80/3.6;
@@ -126,9 +126,12 @@ input.tirFile_3 = mfeval.readTIR('MagicFormula61_Parameters.tir');
 input.tirFile_4 = mfeval.readTIR('MagicFormula61_Parameters.tir');
 
 % Linear cornering stiffness (Lateral)
-input.C1 = 103000*5.5;
-input.C2 = 80000*3.5;
+input.C1 = 103000*3.5;
+input.C2 = 80000*4.5;
 
+
+% Peak Slip Angle
+input.peak_alpha_1 = deg2rad(8); % Peak slip angle of front tires is ~ 8 degrees
 %% INPUT :- PROPERTIES : MISC.
 input.i_s = 17.842;               % Steering Ratio [-]
 

@@ -29,14 +29,12 @@ B = [C1/m;
 
 % Output Matrix
 % NOTE - Assuming that lateral velocity is the output that can be measured 
-C = [1 0];
+C = [1/u a/u];
 
-%% State Observer Gain
-% Using pole placement technique to create the observer gain matrix
-% Using the principle of duality, (A-BK) is equivalent to (A' - C'L').
-% Therefore, A', C' can be used using the placeMIMO function (which is the
-% same as the place.m functio
-% n of
-input.L = -place(A',C',[-40,-5])';
+D = [-1];
 
-eig(A - input.L*C)
+%% Transfer Function : alpha/delta
+
+[num,den] = ss2tf(A,B,C,D);
+
+tf_alpha_delta = tf(num,den);

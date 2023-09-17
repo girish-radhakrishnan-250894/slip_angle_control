@@ -363,8 +363,10 @@ Qdot = [q_d;
 
 M = M_Mat__0;
 
-O = [u
-     v];
+O = [u;
+     v;
+     alpha_1__1;
+     alpha_2__2];
 
 
 

@@ -51,7 +51,7 @@ tic % Start timer
 timeTest=toc; % End timer
 
 
-n_outputs_simulator = 1;
+n_outputs_simulator = 3;
 O_simulator = zeros(length(t),n_outputs_simulator);
 parfor i=1:length(q)
     [~,O_simulator(i,:),~] = slip_angle_controller(t(i),q(i,:)',input);
@@ -60,10 +60,18 @@ end
 
 %% PLOTS
 
+% Lateral Velocity 
 figure
-plot(t, O_simulator, t, q(:,29))
+plot(t, O_simulator(:,1), t, q(:,29))
 legend("v","v_{hat}", Location="best")
 
+% Yaw Rate
 figure
 plot(t,(rad2deg(q(:,20))), t, rad2deg(q(:,30)))
 legend("r","r_{hat}", Location="best")
+
+% Slip Angle
+figure
+plot(t, rad2deg(O_simulator(:,2)), t, rad2deg(O_simulator(:,3)) );
+legend("alpha_f", "alpha_f_{hat}", Location="best")
+
