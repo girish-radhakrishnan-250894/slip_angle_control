@@ -6,6 +6,21 @@ function [Q_dot,O_simulator,O_model] = slip_angle_controller(t, Q,input)
 %   control action needed and it passes these as scalar values to the
 %   vehicle model.
 
+% The goal of the slip angle controller is to keep the slip angle within a 
+% threshold of the peak slip angle. This allows to improve vehicle performance
+% and reduce tire wear at the front. 
+
+% To utilize more of control theory and observre knowledge, I assume that
+% the the slip angle is not measureable. Therefore it must be estimated. 
+% The slip angle is estimated indirectly by estimating yaw rate and lateral 
+% velocity. The lateral velocity is assumed to be measurable and yaw rate is 
+% assumed to be not measureable. 
+
+% A non-linear state estimator is implemented which estimates yaw rate and 
+% lateral velocity. These estimates are then used to estimate the slip angle. 
+
+% The estimated slip angle is then controlled.
+
 %% Initialization : State Observer variables (only those required to calculate the necessary observer actions)
 
 v_hat = Q(29); % Estimate of lateral velocity - v
