@@ -48,18 +48,18 @@ g = 9.81;
 %% Observer Dynamics : Slip Angles
 
 % Front slip angle
-alpha_1 = -atan( ( -u*sin(delta_c) + (v_hat + a*r_hat)*cos(delta_c) ) / ( u*cos(delta_c) + (v_hat + a*r_hat)*sin(delta_c)  ));
+alpha_1_hat = -atan( ( -u*sin(delta_c) + (v_hat + a*r_hat)*cos(delta_c) ) / ( u*cos(delta_c) + (v_hat + a*r_hat)*sin(delta_c)  ));
 
 % Rear slip angle
-alpha_2 = -atan( ( -u*sin(0) + (v_hat - b*r_hat)*cos(0) ) / ( u*cos(0) + (v_hat - b*r_hat)*sin(0)  ));
+alpha_2_hat = -atan( ( -u*sin(0) + (v_hat - b*r_hat)*cos(0) ) / ( u*cos(0) + (v_hat - b*r_hat)*sin(0)  ));
 
 %% Observer Dynamics : Forces
 
 Fz_1 = m*g*b/(l);
 Fz_2 = m*g*a/(l);
 
-mf_input_1 = [Fz_1/2, 0, -alpha_1, 0, 0, u];
-mf_input_2 = [Fz_2/2, 0, -alpha_2, 0, 0, u];
+mf_input_1 = [Fz_1/2, 0, -alpha_1_hat, 0, 0, u];
+mf_input_2 = [Fz_2/2, 0, -alpha_2_hat, 0, 0, u];
 
 mf_output_1 = mfeval(input.tirFile_1, mf_input_1, 211);
 mf_output_2 = mfeval(input.tirFile_2, mf_input_2, 211);
