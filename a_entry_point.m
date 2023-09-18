@@ -28,6 +28,10 @@ input_script;
 
 observer_gain;
 
+%% Initializing Slip Angle Controller
+
+initialize_slip_angle_controller;
+
 %% INITIALIZATION
 v_guess = input.u_start;
 omega_y_1_guess = v_guess/input.r_01;
@@ -35,12 +39,12 @@ omega_y_2_guess = v_guess/input.r_02;
 omega_y_3_guess = v_guess/input.r_03;
 omega_y_4_guess = v_guess/input.r_04;
 
-q0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 input.u_start 0 0 0 0 0 0 0 0 0 omega_y_1_guess omega_y_2_guess omega_y_3_guess omega_y_4_guess 0 0];
+q0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 input.u_start 0 0 0 0 0 0 0 0 0 omega_y_1_guess omega_y_2_guess omega_y_3_guess omega_y_4_guess 0 0 zeros(1, size(input.A_alpha, 1))];
 
 %% SIMULATION :- Simulation Options
 
 % Initializing the options struct
-opts = odeset('MaxStep',0.01);
+opts = odeset('MaxStep',0.01, RelTol=1e-6);
 
 
 %% SIMULATION :- RUN 
@@ -51,7 +55,7 @@ tic % Start timer
 timeTest=toc; % End timer
 
 
-n_outputs_simulator = 3;
+n_outputs_simulator = 5;
 O_simulator = zeros(length(t),n_outputs_simulator);
 parfor i=1:length(q)
     [~,O_simulator(i,:),~] = slip_angle_controller(t(i),q(i,:)',input);
@@ -75,3 +79,10 @@ figure
 plot(t, rad2deg(O_simulator(:,2)), t, rad2deg(O_simulator(:,3)) );
 legend("alpha_f", "alpha_f_{hat}", Location="best")
 
+figure
+plot(t, rad2deg(O_simulator(:,4)))
+legend("error_alpha")
+
+figure
+plot(t, rad2deg(O_simulator(:,5)))
+legend("Slip Angle Control action")

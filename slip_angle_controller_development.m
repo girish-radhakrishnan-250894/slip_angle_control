@@ -29,9 +29,9 @@ B = [C1/m;
 
 % Output Matrix
 % NOTE - Assuming that lateral velocity is the output that can be measured 
-C = [1/u a/u];
+C = -[1/u a/u];
 
-D = [-1];
+D = [1];
 
 %% Transfer Function : alpha/delta
 
