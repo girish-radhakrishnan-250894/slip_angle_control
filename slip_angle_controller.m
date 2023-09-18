@@ -28,13 +28,22 @@ r_hat = Q(30); % Estimate of yaq rate - r
 
 %% Initialization : Controller variables (only those required to calculate the necessary observer actions)
 
-Zc_alpha = [Q(31:end)];
+Zc_alpha = [Q(31:33)];
 
+%% Initialization : Filtered error
+
+e_alpha = Q(34);
+
+Zc_error = e_alpha;
 %% Initialization : Inputs (reference inputs to be tracked by controller)
 delta_steering_input = interp1(input.time, input.delta, t, 'pchip');
 
 delta_controller_unsaturated = input.C_alpha * Zc_alpha;
-delta_controller = F04_SATURATION_1(-deg2rad(2),deg2rad(2),delta_controller_unsaturated,0.05,1);
+delta_controller = 0*F04_SATURATION_1(-deg2rad(5),deg2rad(5),delta_controller_unsaturated,0.05,1);
+
+if abs(e_alpha) < deg2rad(0.001)
+    delta_controller = 0;
+end
 
 delta_c = delta_steering_input + delta_controller;
 
@@ -81,10 +90,10 @@ alpha_2_hat = -atan( ( -u*sin(0) + (v_hat - b*r_hat)*cos(0) ) / ( u*cos(0) + (v_
 
 target_alpha_1 = input.peak_alpha_1;
 
-e_alpha = 0;
+e_alpha_unfiltered = 0;
 
-if (abs(target_alpha_1) - abs(alpha_1_hat) < -deg2rad(2) )
-    e_alpha = abs(target_alpha_1) - abs(alpha_1_hat);
+if (abs(target_alpha_1) - abs(alpha_1_hat) < -deg2rad(0.1) )
+    e_alpha_unfiltered = abs(target_alpha_1) - abs(alpha_1_hat);
 end
 
 % e_alpha = min(-deg2rad(0.5), e_alpha);
@@ -142,11 +151,17 @@ f_hat_qd_q_u = [Fy_1 + Fy_2 - m*u*r_hat;
 
 Zc_dot_alpha = input.A_alpha*Zc_alpha + input.B_alpha*e_alpha;
 
+%% Filtering the Error
+
+Zc_dot_error = input.A_lpf*Zc_error + input.B_lpf*e_alpha_unfiltered;
+
+
 %% Augmented system dynamics ([model estimator])
 
 Q_dot = [q_dot;
          (M_hat\f_hat_qd_q_u) + input.L*(y - y_hat);
-         Zc_dot_alpha
+         Zc_dot_alpha;
+         Zc_dot_error
          ];
 
 %% Initializing outputs to be logged

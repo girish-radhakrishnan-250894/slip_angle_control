@@ -39,7 +39,7 @@ omega_y_2_guess = v_guess/input.r_02;
 omega_y_3_guess = v_guess/input.r_03;
 omega_y_4_guess = v_guess/input.r_04;
 
-q0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 input.u_start 0 0 0 0 0 0 0 0 0 omega_y_1_guess omega_y_2_guess omega_y_3_guess omega_y_4_guess 0 0 zeros(1, size(input.A_alpha, 1))];
+q0 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 input.u_start 0 0 0 0 0 0 0 0 0 omega_y_1_guess omega_y_2_guess omega_y_3_guess omega_y_4_guess 0 0 zeros(1, size(input.A_alpha, 1)) 0];
 
 %% SIMULATION :- Simulation Options
 
